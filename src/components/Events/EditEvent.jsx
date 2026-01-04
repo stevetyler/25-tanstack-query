@@ -34,10 +34,9 @@ export default function EditEvent() {
         queryClient.setQueryData(['events', params.id], context.previousEvent);
       }
     },
-    onSuccess: () => {
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['events', params.id] });
-      queryClient.invalidateQueries({ queryKey: ['events'] });
-    },
+    }
   });
 
   function handleSubmit(formData) {
