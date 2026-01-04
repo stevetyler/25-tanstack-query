@@ -3,7 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import Modal from '../UI/Modal.jsx';
 import EventForm from './EventForm.jsx';
-import { createNewEvent } from '../../util/http.js';
+import { createNewEvent, queryClient } from '../../util/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
 export default function NewEvent() {
@@ -13,6 +13,12 @@ export default function NewEvent() {
   const { mutate, isPending, isError, error } = useMutation({
     // mutationKey not needed here as we are not using it to identify/cache the mutation
     mutationFn: createNewEvent,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['events'] // can use exact: true if needed to only refetch this specific query
+      }); // causes refetch of all queries to ensure fresh data
+      navigate('/events');
+    }
   });
 
 
