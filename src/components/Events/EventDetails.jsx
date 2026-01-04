@@ -18,7 +18,7 @@ export default function EventDetails() {
     mutationFn: deleteEvent,
     onSuccess: () => {
       // Invalidate the 'events' query to refetch the list after deletion
-      queryClient.invalidateQueries({ queryKey: ['events'] });
+      queryClient.invalidateQueries({ queryKey: ['events'], refetchType: 'none' }); // refetchType 'none' to avoid immediate refetch
       navigate('/events');
     },
   });
